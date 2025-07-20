@@ -1,0 +1,15 @@
+# Ignore compiled class files
+*.class
+
+# Ignore IntelliJ IDEA project files
+*.iml
+.idea/
+
+# Ignore VS Code project files
+.vscode/
+
+# Ignore macOS system file
+.DS_Store
+
+# Ignore JSON file storing task data (optional)
+tasks.json
