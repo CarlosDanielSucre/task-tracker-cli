@@ -1,49 +1,16 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.nio.file.Paths;
+import java.nio.file.Files;
 import java.io.IOException;
 
-public class TaskTracker{
+public class TaskTracker {
 
-    public static void main(String[] args) {
-        TaskRepository.readTasksJsonContent();
+    public static void main(String[] args) throws IOException{
+        String contentJson = Files.readString(Paths.get("tasks.json"));
+        System.out.println("Contenido del archivo JSON:");
+        System.out.println(contentJson);
 
-            // Esto es EXTREMADAMENTE FRÁGIL y solo funciona para casos MUY específicos
-            // NO ES UN PARSER JSON GENÉRICO
-           /* if (jsonString.contains("\"clave1\":")) {
-                int startIndex = jsonString.indexOf("\"clave1\":") + "\"clave1\":".length();
-                // Buscar el inicio y fin del valor de la clave1
-                int valueStartIndex = -1;
-                int valueEndIndex = -1;
+        Task task = new Task(2, "Write a book", "in progress", "18/05/2025", "18/05/2025");
 
-                // Encontrar el primer '"' después de la clave1
-                for (int i = startIndex; i < jsonString.length(); i++) {
-                    if (jsonString.charAt(i) == '"') {
-                        valueStartIndex = i + 1; // El valor real empieza después de la comilla
-                        break;
-                    }
-                }
-
-                // Encontrar el siguiente '"' para cerrar el string
-                if (valueStartIndex != -1) {
-                    for (int i = valueStartIndex; i < jsonString.length(); i++) {
-                        if (jsonString.charAt(i) == '"' && jsonString.charAt(i - 1) != '\\') { // Cuidado con comillas escapadas
-                            valueEndIndex = i;
-                            break;
-                        }
-                    }
-                }
-
-                if (valueStartIndex != -1 && valueEndIndex != -1) {
-                    String valorClave1 = jsonString.substring(valueStartIndex, valueEndIndex);
-                    System.out.println("Valor de clave1 (extraído manualmente): " + valorClave1);
-                } else {
-                    System.out.println("No se pudo extraer el valor de clave1.");
-                }
-            }
-
-
-        } catch (IOException e) {
-            System.err.println("Error al leer el archivo: " + e.getMessage());
-        }*/
+        System.out.println(task.toJson(2, "Write a book", "in progress", "18/05/2025", "18/05/2025"));
     }
 }
