@@ -1,3 +1,7 @@
+import java.nio.file.StandardOpenOption;
+import java.nio.file.Paths;
+import java.nio.file.Files;
+import java.io.IOException;
 
 public class Task{
     private int id;
@@ -14,8 +18,16 @@ public class Task{
         this.updateAt = updateAt;
     }
 
-    public String toJson(int var1, String var2, String var3, String var4, String var5) {
-        return String.format("{\"id\":%d,\"description\":\"%s\",\"status\":\"%s\",\"createdAt\":\"%s\",\"updatedAt\":\"%s\"}", var1, var2, var3, var4, var5);
+    public String toJson() {
+        return String.format("  {\n    \"id\":%d,\n    \"description\":\"%s\",\n    \"status\":\"%s\",\n    \"createdAt\":\"%s\",\n    \"updatedAt\":\"%s\"\n  }\n", this.id,
+        this.description,
+        this.status,
+        this.createdAt,
+        this.updateAt);
+    }
+
+    public void addTask(String taskJson) throws IOException {
+        Files.writeString(Paths.get("tasks.json"),taskJson, StandardOpenOption.APPEND);
     }
 
 }

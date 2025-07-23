@@ -1,6 +1,7 @@
 import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.io.IOException;
+import java.nio.file.StandardOpenOption;
 
 public class TaskTracker {
 
@@ -11,6 +12,13 @@ public class TaskTracker {
 
         Task task = new Task(2, "Write a book", "in progress", "18/05/2025", "18/05/2025");
 
-        System.out.println(task.toJson(2, "Write a book", "in progress", "18/05/2025", "18/05/2025"));
+        System.out.println(task.toJson());
+
+
+            task.addTask(task.toJson());
+
+            System.out.println(contentJson);
+
+
     }
 }
