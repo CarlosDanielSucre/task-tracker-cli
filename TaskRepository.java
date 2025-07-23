@@ -5,30 +5,26 @@ import java.io.IOException;
 
     public class TaskRepository {
 
-        // Este método declara que puede lanzar IOException.
-        // Si el archivo no existe o hay un error de lectura, el programa fallará aquí.
-        public static String readTasksJsonContent(){
-            String fileName = "tasks.json";
-            StringBuilder jsonContent = new StringBuilder();
+        public static String[] fromJson(String json) {
+            json = json.trim().replace(" ", "");
+            String[][] parts = json.split("}");
+            String[] pair = json.split(",");;
+            int id = 0;
+            String desc = "", status = "", created = "", updated = "";
+            String[] pair = json.split(",");;
+            for (String part : parts) {
+                pair = part.split(":");
 
-            // El 'try-with-resources' sigue siendo la forma más limpia de abrir y asegurar
-            // que el lector se cierre, incluso si hay una excepción.
-            // La excepción no se captura aquí, sino que se propaga.
-            try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    // Eliminamos espacios al inicio y final de cada línea.
-                    jsonContent.append(line.trim());
-                }
+              /*  switch (key) {
+                    case "id": id = Integer.parseInt(value); break;
+                    case "description": desc = value; break;
+                    case "status": status = value; break;
+                    case "createdAt": created = value; break;
+                    case "updatedAt": updated = value; break;
+                }*/
             }
-            // No hay bloque catch aquí. Si FileReader o BufferedReader lanzan una IOException,
-            // el método terminará inmediatamente y lanzará esa misma IOException.
 
-            String jsonString = jsonContent.toString();
-            // Opcional: imprimir el contenido. Podrías quitar esta línea si solo quieres el retorno.
-            System.out.println("Contenido del JSON (como String): " + jsonString);
-
-            return jsonString; // Devolvemos la cadena JSON construida
-
-    }
+           // return new Task(id, desc, status, created, updated);
+            return parts;
+        }
 }

@@ -30,4 +30,36 @@ public class Task{
         Files.writeString(Paths.get("tasks.json"),taskJson, StandardOpenOption.APPEND);
     }
 
+    public static Task fromJson(String json) {
+        json = json.trim().replace("{", "").replace("}", "");
+        String[] parts = json.split(",");
+        int id = 0;
+        String desc = "", status = "", created = "", updated = "";
+
+        for (String part : parts) {
+            String[] pair = part.split(":");
+            String key = pair[0].trim().replace("\"", "");
+            String value = pair[1].trim().replace("\"", "");
+
+            switch (key) {
+                case "id": id = Integer.parseInt(value); break;
+                case "description": desc = value; break;
+                case "status": status = value; break;
+                case "createdAt": created = value; break;
+                case "updatedAt": updated = value; break;
+            }
+        }
+
+        return new Task(id, desc, status, created, updated);
+    }
+
+    public String toString(){
+        return String.format("  {\n    \"id\":%d,\n    \"description\":\"%s\",\n    \"status\":\"%s\",\n    \"createdAt\":\"%s\",\n    \"updatedAt\":\"%s\"\n  }\n",
+                this.id,
+                this.description,
+                this.status,
+                this.createdAt,
+                this.updateAt);
+    }
+
 }
