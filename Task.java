@@ -29,6 +29,13 @@ public class Task{
     public void addTask(String taskJson) throws IOException {
         Files.writeString(Paths.get("tasks.json"),taskJson, StandardOpenOption.APPEND);
     }
+    public static String[] toJson (Task[] task){
+        String[] tasksStrings = null;
+        for(int i = 0; i < task.length ; i++){
+            tasksStrings[i] = task[i].toString();
+        }
+        return tasksStrings;
+    }
 
     public static Task fromJson(String json) {
         json = json.trim().replace("{", "").replace("}", "");
