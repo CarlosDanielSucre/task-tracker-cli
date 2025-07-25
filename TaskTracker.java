@@ -8,9 +8,11 @@ public class TaskTracker {
 
     public static void main(String[] args) throws IOException{
         String contentJson = Files.readString(Paths.get("tasks.json"));
-        Task[] task = TaskRepository.fromJson(contentJson);
-        String[] tarefas = Task.toJson(task);
-        System.out.println(tarefas[0]);
+        Task[] task = Task.fromJson(contentJson);
+        String tarefas = task.toString();
+        System.out.println(task[1].getDescription());
+
+        TaskRepository.listAllTasks(task);
 
 
 

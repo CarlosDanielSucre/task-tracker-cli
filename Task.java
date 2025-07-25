@@ -10,6 +10,22 @@ public class Task{
     private String createdAt;
     private String updateAt;
 
+    public int getId () {
+        return this.id;
+    }
+    public String getDescription () {
+        return this.description;
+    }
+    public String getStatus () {
+        return this.status;
+    }
+    public String getCreatedAt () {
+        return this.createdAt;
+    }
+    public String getUpdateAt () {
+        return this.updateAt;
+    }
+
     public Task(int id, String description, String status, String createdAt, String updateAt) {
         this.id = id;
         this.description = description;
@@ -37,28 +53,7 @@ public class Task{
         return tasksStrings;
     }
 
-    public static Task fromJson(String json) {
-        json = json.trim().replace("{", "").replace("}", "");
-        String[] parts = json.split(",");
-        int id = 0;
-        String desc = "", status = "", created = "", updated = "";
 
-        for (String part : parts) {
-            String[] pair = part.split(":");
-            String key = pair[0].trim().replace("\"", "");
-            String value = pair[1].trim().replace("\"", "");
-
-            switch (key) {
-                case "id": id = Integer.parseInt(value); break;
-                case "description": desc = value; break;
-                case "status": status = value; break;
-                case "createdAt": created = value; break;
-                case "updatedAt": updated = value; break;
-            }
-        }
-
-        return new Task(id, desc, status, created, updated);
-    }
 
     public String toString(){
         return String.format("  {\n    \"id\":%d,\n    \"description\":\"%s\",\n    \"status\":\"%s\",\n    \"createdAt\":\"%s\",\n    \"updatedAt\":\"%s\"\n  }\n",
@@ -67,6 +62,46 @@ public class Task{
                 this.status,
                 this.createdAt,
                 this.updateAt);
+    }
+
+    public static Task[] fromJson(String json) {
+        json = json.trim()
+                .replace("[", "")
+                .replace("]", "")
+                .replace("},", "}|"); // separador de tareas
+
+        String[] taskStrings = json.split("\\|");
+        Task[] tasks = new Task[taskStrings.length];
+
+        for (int i = 0; i < taskStrings.length; i++) {
+            String taskStr = taskStrings[i]
+                    .replace("{", "")
+                    .replace("}", "")
+                    .replace("\"", "")
+                    .trim();
+
+            String[] fields = taskStr.split(",");
+            int id = 0;
+            String description = "", status = "", createdAt = "", updatedAt = "";
+
+            for (String field : fields) {
+                String[] pair = field.split(":", 2);
+                String key = pair[0].trim();
+                String value = pair[1].trim();
+
+                switch (key) {
+                    case "id": id = Integer.parseInt(value); break;
+                    case "description": description = value; break;
+                    case "status": status = value; break;
+                    case "createdAt": createdAt = value; break;
+                    case "updatedAt": updatedAt = value; break;
+                }
+            }
+
+            tasks[i] = new Task(id, description, status, createdAt, updatedAt);
+        }
+
+        return tasks;
     }
 
 }
