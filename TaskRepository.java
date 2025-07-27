@@ -118,6 +118,22 @@ import java.io.IOException;
                 System.out.println("There are problem with UptadeJson");
             }
         }
+        public static void deleteTask(int id) {
+
+            for(int i = 0; i < tasks.size(); i++){
+                if(tasks.get(i).getId() == id){
+                    tasks.remove(i);
+                }
+
+            }
+            try{
+                UpdateJson();
+                System.out.println("Removed");
+            }catch (IOException e){
+                System.out.println(e);
+                System.out.println("There are problem with UptadeJson");
+            }
+        }
 
 
 }
