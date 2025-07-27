@@ -13,7 +13,8 @@ public class TaskTracker {
 
         Path path = Paths.get("tasks.json");
 
-        TaskRepository.deleteTask(23);
+
+        TaskRepository.whatToDo(args);
 
 
     }

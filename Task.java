@@ -30,6 +30,12 @@ public class Task{
     public void setDescription (String newDescription) {
         this.description = newDescription;
     }
+    public void setUpdateAt (String newDate) {
+        this.updateAt = newDate;
+    }
+    public void setStatus (String status) {
+        this.status = status;
+    }
 
     public Task(int id, String description, String status, String createdAt, String updateAt) {
         this.id = id;
