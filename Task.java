@@ -1,7 +1,9 @@
 import java.nio.file.StandardOpenOption;
 import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.nio.file.Files;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Task{
     private int id;
@@ -34,25 +36,9 @@ public class Task{
         this.updateAt = updateAt;
     }
 
-    public String toJson() {
-        return String.format("  {\n    \"id\":%d,\n    \"description\":\"%s\",\n    \"status\":\"%s\",\n    \"createdAt\":\"%s\",\n    \"updatedAt\":\"%s\"\n  }\n", this.id,
-        this.description,
-        this.status,
-        this.createdAt,
-        this.updateAt);
-    }
-
     public void addTask(String taskJson) throws IOException {
         Files.writeString(Paths.get("tasks.json"),taskJson, StandardOpenOption.APPEND);
     }
-    public static String[] toJson (Task[] task){
-        String[] tasksStrings = null;
-        for(int i = 0; i < task.length ; i++){
-            tasksStrings[i] = task[i].toString();
-        }
-        return tasksStrings;
-    }
-
 
 
     public String toString(){
@@ -64,14 +50,14 @@ public class Task{
                 this.updateAt);
     }
 
-    public static Task[] fromJson(String json) {
+    public static ArrayList<Task> fromJson(String json) {
         json = json.trim()
                 .replace("[", "")
                 .replace("]", "")
                 .replace("},", "}|"); // separador de tareas
 
         String[] taskStrings = json.split("\\|");
-        Task[] tasks = new Task[taskStrings.length];
+        ArrayList<Task> tasks = new ArrayList<Task>();
 
         for (int i = 0; i < taskStrings.length; i++) {
             String taskStr = taskStrings[i]
@@ -98,10 +84,13 @@ public class Task{
                 }
             }
 
-            tasks[i] = new Task(id, description, status, createdAt, updatedAt);
+            tasks.add(new Task(id, description, status, createdAt, updatedAt));
         }
 
         return tasks;
     }
+
+
+
 
 }
