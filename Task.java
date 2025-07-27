@@ -27,6 +27,9 @@ public class Task{
     public String getUpdateAt () {
         return this.updateAt;
     }
+    public void setDescription (String newDescription) {
+        this.description = newDescription;
+    }
 
     public Task(int id, String description, String status, String createdAt, String updateAt) {
         this.id = id;

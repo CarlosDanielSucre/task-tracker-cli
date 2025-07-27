@@ -72,40 +72,52 @@ import java.io.IOException;
         }
 
 
-
-    public static void listAllTasks (Task[] tasks) {
-        System.out.println("List of tasks:");
-        for(int i = 0; i < tasks.length ; i++) {
+        public static void listAllTasks (Task[] tasks) {
+            System.out.println("List of tasks:");
+            for(int i = 0; i < tasks.length ; i++) {
             System.out.println("ID: "+tasks[i].getId()+
                                "  - Description: "+ tasks[i].getDescription() +
                                "  - Status: " + tasks[i].getStatus());
+                }
         }
-    }
-    public static void addTask(int id, String description) {
-        boolean repeatId = false;
-        for(int i = 0; i < tasks.size(); i++){
-            if(tasks.get(i).getId() == id){
-                repeatId = true;
+
+        public static void addTask(int id, String description) {
+            boolean repeatId = false;
+            for(int i = 0; i < tasks.size(); i++){
+                if(tasks.get(i).getId() == id){
+                    repeatId = true;
+                }
+            }
+            if(repeatId){
+                System.out.println("It's not posible to save task with the repeat Id");
+            }else{
+                Task newTask = new Task(id, description, "To do", formattedDateTime, formattedDateTime);
+                tasks.add(newTask);
+                System.out.println("Add Task");
+                try{
+                    UpdateJson();
+                }catch (IOException e){
+                    System.out.println(e);
+                    System.out.println("There are problem with UptadeJson");
+                }
             }
         }
-        if(repeatId){
-            System.out.println("It's not posible to save task with the repeat Id");
-        }else{
-            Task newTask = new Task(id, description, "To do", formattedDateTime, formattedDateTime);
-            tasks.add(newTask);
-            System.out.println("Add Task");
+        public static void updateTask(int id, String description) {
+
+            for(int i = 0; i < tasks.size(); i++){
+                if(tasks.get(i).getId() == id){
+                    tasks.get(i).setDescription(description);
+                }
+
+            }
             try{
                 UpdateJson();
+                System.out.println("Atualized");
             }catch (IOException e){
                 System.out.println(e);
                 System.out.println("There are problem with UptadeJson");
             }
         }
-
-
-
-    }
-
 
 
 }

@@ -13,7 +13,7 @@ public class TaskTracker {
 
         Path path = Paths.get("tasks.json");
 
-        TaskRepository.addTask(23, "This is a task");
+        TaskRepository.updateTask(23, "This is a new description");
 
 
     }
