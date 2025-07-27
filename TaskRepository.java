@@ -91,16 +91,40 @@ public class TaskRepository{
                 }
             }
         }
-        if(args[0].equals("list")){
+        if(args[0].equals("list")) {
             if (args.length > 1) {
-                System.out.println("To show the list of task, you must type only list comand. Please use the format: java TaskCLI list");
-            }else{
-                listAllTasks();
+                if (args[1].equals("todo")) {
+                    if (args.length > 2) {
+                        System.out.println("To show the list of task in todo status, you must type only list comand. Please use the format: java TaskCLI list todo");
+                    } else {
+                        listToDo();
+                    }
+                } else if (args[1].equals("in-progress")) {
+                    if (args.length > 2) {
+                        System.out.println("To show the list of task in progress status, you must type only list comand. Please use the format: java TaskCLI list in-progress");
+                    } else {
+                        listInProgress();
+                    }
+                } else if (args[1].equals("done")) {
+                    if (args.length > 2) {
+                        System.out.println("To show the list of task in done status, you must type only list comand. Please use the format: java TaskCLI list done");
+                    } else {
+                        listDone();
+                    }
+                }else if(args.length == 1) {
+                    listAllTasks();
+                }else{
+                    System.out.println("Invalid comand");
+                    showHelp();
+                }
             }
+
+            if (args[0].equals("help")) {
+                showHelp();
+            }
+
         }
-        if(args[0].equals("help")){
-            showHelp();
-        }
+
     }
      //
      //
@@ -141,13 +165,80 @@ public class TaskRepository{
             System.out.println();
         }
     }
+    public static void listToDo(){
+        System.out.println("List of tasks in todo state:");
+        System.out.println("---------------------------");
+        boolean thereAreTask = false;
+        for(int i = 0; i < tasks.size() ; i++) {
+            if(tasks.get(i).getStatus().equals("todo")){
+                thereAreTask = true;
+                System.out.println(
+                        "ID: " + tasks.get(i).getId() + "\n" +
+                                "  - Description: " + tasks.get(i).getDescription() + "\n" +
+                                "  - Status: " + tasks.get(i).getStatus() + "\n" +
+                                "  - Created: " + tasks.get(i).getCreatedAt() + "\n" +
+                                "  - Updated: " + tasks.get(i).getUpdateAt() + "\n" +
+                                "------"
+                );
+            }
+            System.out.println();
+        }
+        if(!thereAreTask){
+            System.out.println("There are no tasks in the 'in-progress' state");
+        }
+    }
+        public static void listInProgress(){
+            System.out.println("List of tasks in Progress state:");
+            System.out.println("---------------------------");
+            boolean thereAreTask = false;
+            for(int i = 0; i < tasks.size() ; i++) {
+                if(tasks.get(i).getStatus().equals("in-progress")){
+                    thereAreTask = true;
+                    System.out.println(
+                            "ID: " + tasks.get(i).getId() + "\n" +
+                                    "  - Description: " + tasks.get(i).getDescription() + "\n" +
+                                    "  - Status: " + tasks.get(i).getStatus() + "\n" +
+                                    "  - Created: " + tasks.get(i).getCreatedAt() + "\n" +
+                                    "  - Updated: " + tasks.get(i).getUpdateAt() + "\n" +
+                                    "------"
+                    );
+                }
+                System.out.println();
+            }
+            if(!thereAreTask){
+                System.out.println("There are no tasks in the 'in-progress' state");
+            }
+        }
+        public static void listDone(){
+        System.out.println("List of tasks in done state:");
+        System.out.println("---------------------------");
+        boolean thereAreTask = false;
+        for(int i = 0; i < tasks.size() ; i++) {
+            if(tasks.get(i).getStatus().equals("done")){
+                thereAreTask = true;
+                System.out.println(
+                        "ID: " + tasks.get(i).getId() + "\n" +
+                                "  - Description: " + tasks.get(i).getDescription() + "\n" +
+                                "  - Status: " + tasks.get(i).getStatus() + "\n" +
+                                "  - Created: " + tasks.get(i).getCreatedAt() + "\n" +
+                                "  - Updated: " + tasks.get(i).getUpdateAt() + "\n" +
+                                "------"
+                );
+            }
+            System.out.println();
+        }
+        if(!thereAreTask){
+            System.out.println("There are no tasks in the 'done' state");
+        }
+    }
+
     public static int increasedId(){
         return tasks.get(tasks.size()-1).getId() + 1;
     }
 
     public static void addTask(String description) {
 
-        Task newTask = new Task(increasedId(), description, "To do", formattedDateTime, formattedDateTime);
+        Task newTask = new Task(increasedId(), description, "todo", formattedDateTime, formattedDateTime);
         tasks.add(newTask);
         System.out.println("Add Task");
         try{
