@@ -29,6 +29,11 @@ Each task is saved in `tasks.json` with the following fields:
   "updatedAt": "2025-07-27 18:01:48"
 }
 ```
+# Project Challenge
+This project was developed as part of the Task Tracker Challenge from roadmap.sh, a platform that provides real-world project ideas to practice and strengthen software development skills.
+
+> 🧩 Challenge Source: [roadmap.sh/projects/task-tracker](https://roadmap.sh/projects/task-tracker)
+
 #  How to Run
 
 1. Clone the repository
