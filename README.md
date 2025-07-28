@@ -103,7 +103,7 @@ Tasks are handled in three classes: Task, TaskRepository, and TaskTracker.
 Task IDs are automatically generated.
 The CLI is case-sensitive (e.g., add ≠ Add).
 
-### 👨‍💻 Author
+### Author
 Made with love by Carlos Daniel Sucre Cordova
 ✉️ carlosdanielsucre568@gmail.com
 
