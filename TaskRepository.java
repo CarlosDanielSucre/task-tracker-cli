@@ -20,6 +20,7 @@ public class TaskRepository{
         try{
             if(Files.exists(path)){
                 tasks  = Task.fromJson(Files.readString(path));
+
             }else{
                 tasks = new ArrayList<>();
             }
@@ -30,15 +31,20 @@ public class TaskRepository{
     }
 
 
-    public static void whatToDo (String[] args) throws IOException {
-        if(args[0].equals("add")){
+    public static void whatToDo (String[] args){
+        if (args.length == 0) { // Always good to handle no arguments
+            showHelp();
+            return;
+        }
+        String command = args[0].toLowerCase();
+
+        if (command.equals("add")){
             if(args.length > 2){
                 System.out.println("To add a task, you can include only a description. Please use the format: java TaskCLI add \"description\"");
             }else{
                 addTask(args[1]);
             }
-        }
-        if(args[0].equals("update")){
+        } else if (command.equals("update")){
             if(args.length > 3){
                 System.out.println("To update a task, you can include only a description. Please use the format: java TaskCLI update <ID> \"description\"");
             }else{
@@ -51,8 +57,7 @@ public class TaskRepository{
                 }
 
             }
-        }
-        if(args[0].equals("delete")) {
+        } else if (command.equals("delete")) {
             if (args.length > 2) {
                 System.out.println("To delete a task, you must type only an id. Please use the format: java TaskCLI delete <ID>");
             } else {
@@ -64,8 +69,7 @@ public class TaskRepository{
                     System.out.println("Invalid ID: not a number");
                 }
             }
-        }
-        if(args[0].equals("mark-in-progress")){
+        } else if (command.equals("mark-in-progress")){
             if (args.length > 2) {
                 System.out.println("To mark in progress a task, you must type only an id. Please use the format: java TaskCLI mark-in-progress <ID>");
             }else{
@@ -77,8 +81,7 @@ public class TaskRepository{
                     System.out.println("Invalid ID: not a number");
                 }
             }
-        }
-        if(args[0].equals("mark-done")){
+        } else if (command.equals("mark-done")){
             if (args.length > 2) {
                 System.out.println("To mark done a task, you must type only an id. Please use the format: java TaskCLI mark-done <ID>");
             }else{
@@ -90,41 +93,33 @@ public class TaskRepository{
                     System.out.println("Invalid ID: not a number");
                 }
             }
-        }
-        if(args[0].equals("list")) {
-            if (args.length > 1) {
-                if (args[1].equals("todo")) {
-                    if (args.length > 2) {
-                        System.out.println("To show the list of task in todo status, you must type only list comand. Please use the format: java TaskCLI list todo");
-                    } else {
-                        listToDo();
-                    }
-                } else if (args[1].equals("in-progress")) {
-                    if (args.length > 2) {
-                        System.out.println("To show the list of task in progress status, you must type only list comand. Please use the format: java TaskCLI list in-progress");
-                    } else {
-                        listInProgress();
-                    }
-                } else if (args[1].equals("done")) {
-                    if (args.length > 2) {
-                        System.out.println("To show the list of task in done status, you must type only list comand. Please use the format: java TaskCLI list done");
-                    } else {
-                        listDone();
-                    }
-                }else if(args.length == 1) {
-                    listAllTasks();
-                }else{
-                    System.out.println("Invalid comand");
+        } else if (command.equals("list")) {
+            if (args.length == 1) {
+                listAllTasks();
+            } else if (args.length == 2) {
+                String subCommand = args[1].toLowerCase();
+                if (subCommand.equals("todo")) {
+                    listToDo();
+                } else if (subCommand.equals("in-progress")) {
+                    listInProgress();
+                } else if (subCommand.equals("done")) {
+                    listDone();
+                } else {
+                    System.out.println("Invalid list subcommand: " + args[1] + ". Use 'todo', 'in-progress', or 'done'.");
+                    System.out.println("For all tasks, use: java TaskCLI list");
                     showHelp();
                 }
-            }
-
-            if (args[0].equals("help")) {
+            } else {
+                System.out.println("Invalid number of arguments for list command.");
+                System.out.println("Please use the format: java TaskCLI list [todo|in-progress|done]");
                 showHelp();
             }
-
+        } else if (command.equals("help")) {
+            showHelp();
+        } else {
+            System.out.println("Invalid command: " + args[0]);
+            showHelp();
         }
-
     }
      //
      //
@@ -151,20 +146,22 @@ public class TaskRepository{
 
 
     public static void listAllTasks () {
-        System.out.println("List of tasks:");
-        System.out.println("--------------");
-        for(int i = 0; i < tasks.size() ; i++) {
-            System.out.println(
-                    "ID: " + tasks.get(i).getId() + "\n" +
-                            "  - Description: " + tasks.get(i).getDescription() + "\n" +
-                            "  - Status: " + tasks.get(i).getStatus() + "\n" +
-                            "  - Created: " + tasks.get(i).getCreatedAt() + "\n" +
-                            "  - Updated: " + tasks.get(i).getUpdateAt() + "\n" +
-                            "------"
-            );
-            System.out.println();
+            System.out.println("List of tasks:");
+            System.out.println("--------------");
+            for(int i = 0; i < tasks.size() ; i++) {
+                System.out.println(
+                        "ID: " + tasks.get(i).getId() + "\n" +
+                                "  - Description: " + tasks.get(i).getDescription() + "\n" +
+                                "  - Status: " + tasks.get(i).getStatus() + "\n" +
+                                "  - Created: " + tasks.get(i).getCreatedAt() + "\n" +
+                                "  - Updated: " + tasks.get(i).getUpdateAt() + "\n" +
+                                "------"
+                );
+                System.out.println();
+
         }
-    }
+        }
+
     public static void listToDo(){
         System.out.println("List of tasks in todo state:");
         System.out.println("---------------------------");
@@ -233,7 +230,12 @@ public class TaskRepository{
     }
 
     public static int increasedId(){
-        return tasks.get(tasks.size()-1).getId() + 1;
+        if(tasks.isEmpty()){
+            return 1;
+        }else{
+            return tasks.get(tasks.size()-1).getId() + 1;
+        }
+
     }
 
     public static void addTask(String description) {
