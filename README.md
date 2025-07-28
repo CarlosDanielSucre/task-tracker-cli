@@ -32,7 +32,7 @@ Each task is saved in `tasks.json` with the following fields:
 # Project Challenge
 This project was developed as part of the Task Tracker Challenge from roadmap.sh, a platform that provides real-world project ideas to practice and strengthen software development skills.
 
-> 🧩 Challenge Source: [roadmap.sh/projects/task-tracker](https://roadmap.sh/projects/task-tracker)
+> 🧩 Challenge Source: [roadmap.sh/projects/task-tracker](https://roadmap.sh/projects/task-tracker)  
 > Challenge submited: [submited](https://roadmap.sh/projects/task-tracker/solutions?u=6874d3c83ed27010bd3450a1)
 
 #  How to Run
